@@ -10,8 +10,13 @@ if hash psql 2>/dev/null; then
   DB_FOUND=1
 else
   echo "ERROR: postgre not found (are you sure it's installed?)"
+  exit
 fi
 
 if [ "$DB_FOUND" -eq 1 ]; then
-  echo "DATABASE WAS FOUND"
+  # config the database from file
+  psql -f ./setup_cmds.sql
+  echo "yo yo yo "
+  # change back to root
+  exit
 fi
