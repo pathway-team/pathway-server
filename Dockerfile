@@ -12,7 +12,10 @@ COPY requirements.txt ./
 RUN apt-get update
 RUN apt-get install -y libpq-dev postgresql
 # need to change to user postgres
-RUN su - postgres
+USER postgres
+COPY ./setup_cmds.sql .
+# Start the postgres daemon
+RUN /etc/init.d/postgresql start && \
+    psql -f setup_cmds.sql
 # then run the config
-COPY ./db_conf.sh .
-RUN sh db_conf.sh
+RUN exit
