@@ -27,5 +27,5 @@ RUN gunicorn --help
 # Expose the web app port 8000
 EXPOSE 8000
 # Start the application
-CMD ["gunicorn server.wsgi"]
+CMD ["gunicorn", "server.wsgi"]
 
