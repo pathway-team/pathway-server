@@ -22,10 +22,10 @@ RUN /etc/init.d/postgresql start && \
 # exit the postgres user
 RUN exit
 
-RUN gunicorn --help
-
+COPY ./server server/
+RUN ls -l server
 # Expose the web app port 8000
 EXPOSE 8000
 # Start the application
-CMD ["gunicorn", "server.wsgi"]
+CMD ["gunicorn", "-b 0.0.0.0:8000","server.wsgi"]
 
