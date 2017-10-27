@@ -76,11 +76,11 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'posgres',
+        'NAME': 'pathwaydb',
         'USER': 'django',
         'PASSWORD': 'password',
         'HOST': 'localhost',
-        'PORT': ''
+        'PORT': '5432'
     }
 }
 
