@@ -1,4 +1,4 @@
-"""server URL Configuration
+"""pathwayserv URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
@@ -13,9 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
+from rest_framework import routers
 from django.contrib import admin
+from pathwayserv.api import views
 
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
+
+# wire up the api using automatic URL routing
+# additionally include login URLs for browsable api
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
