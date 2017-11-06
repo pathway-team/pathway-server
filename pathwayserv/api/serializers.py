@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User, Group
+from pathwayserv.api.models import Route
 from rest_framework import serializers
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -10,3 +11,8 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ('url', 'name')
+
+class RouteSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Route
+        fields = ('id', 'bbox', 'center')

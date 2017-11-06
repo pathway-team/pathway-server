@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from pathwayserv.api.serializers import UserSerializer, GroupSerializer
+from pathwayserv.api.serializers import UserSerializer, GroupSerializer, RouteSerializer
+from pathwayserv.api.models import Route
 
 # Create your views here.
 
@@ -18,3 +19,10 @@ class GroupViewSet(viewsets.ModelViewSet):
     '''
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+class RouteViewSet(viewsets.ModelViewSet):
+    '''
+    API Endpoint that allows routes to be viewed, edited, or created
+    '''
+    queryset = Route.objects.all()
+    serializer_class = RouteSerializer

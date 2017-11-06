@@ -1,5 +1,9 @@
+import uuid
+
 from django.db import models
 from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.fields import ArrayField
+
 
 # Create your models here.
 
@@ -29,15 +33,15 @@ class User(models.Model):
     )
 
     country     = models.CharField(max_length=255) # why is this needed?
-    active      =
+    active      = models.BooleanField()
     password_id = models.ForeignKey(
-        'Passsword',
+        'Pword',
         # if a user is removed, remove their password as well?
         # we can also have an account deactivated option.
         on_delete=models.CASCADE
     )
 
-class Password(models.Model):
+class Pword(models.Model):
     '''
 
     '''
@@ -49,13 +53,32 @@ class Route(models.Model):
     '''
 
     '''
-    # for now this can just be a uuid
-    id = models.UUIDField(primar_key=True, default=uuid.uuid4, editable=False)
-    # what level of precision do we want on each coord?
-    # Will need to define a Geo coordinate type
-    min_point = JSONField()
-    max_point = JSONField()
-    center    = JSONField()
+    WALKING = 'W'
+    RUNNING = 'R'
+    BIKING  = 'B'
+
+    ATYPE_CHOICES = {
+        (WALKING, 'Walking'),
+        (RUNNING, 'Running'),
+        (BIKING,  'Biking')
+    }
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    bounding_box = ArrayField(
+        models.FloatField(),
+        size=4
+    )
+    creator = models.ForeignKey(
+        'User'
+    )
+    rid = models.IntegerField()
+    pid = models.IntegerField()
+    data = JSONField()
+    atype = models.CharField(
+        max_length=1,
+        choices=ATYPE_CHOICES,
+        default=WALKING
+    )
 
 class Run(models.Model):
     '''
