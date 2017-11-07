@@ -20,7 +20,7 @@ from pathwayserv.api import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+#router.register(r'groups', views.GroupViewSet)
 router.register(r'routes', views.RouteViewSet)
 
 # wire up the api using automatic URL routing

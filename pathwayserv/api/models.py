@@ -34,12 +34,15 @@ class User(models.Model):
 
     country     = models.CharField(max_length=255) # why is this needed?
     active      = models.BooleanField()
+    '''
     password_id = models.ForeignKey(
         'Pword',
+        default="",
         # if a user is removed, remove their password as well?
         # we can also have an account deactivated option.
         on_delete=models.CASCADE
     )
+    '''
 
 class Pword(models.Model):
     '''
@@ -64,15 +67,13 @@ class Route(models.Model):
     }
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    bounding_box = ArrayField(
-        models.FloatField(),
-        size=4
+    bounding_box = JSONField()
+    user = models.ForeignKey(
+        User,
+        default=""
     )
-    creator = models.ForeignKey(
-        'User'
-    )
-    rid = models.IntegerField()
-    pid = models.IntegerField()
+    routeid = models.IntegerField()
+    parentid = models.IntegerField()
     data = JSONField()
     atype = models.CharField(
         max_length=1,
@@ -84,9 +85,11 @@ class Run(models.Model):
     '''
 
     '''
+    '''
     user_name = models.ForeignKey(
        'User'
     )
+    '''
     route_id = models.ForeignKey(
        'Route'
     )
