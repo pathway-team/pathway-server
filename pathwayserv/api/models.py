@@ -1,16 +1,14 @@
 import uuid
 
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import JSONField
 from django.contrib.postgres.fields import ArrayField
 
 
 # Create your models here.
 
-class User(models.Model):
-    '''
-
-    '''
+class User(AbstractUser):
     MALE   = 'M'
     FEMALE = 'F'
     SEX_CHOICES = (
@@ -19,12 +17,10 @@ class User(models.Model):
     )
 
     # Table fields
-    user_name   = models.CharField(max_length=30,primary_key=True)
-    first_name  = models.CharField(max_length=30)
-    last_name   = models.CharField(max_length=30)
-    age         = models.IntegerField()
-    weight      = models.IntegerField()
-    height      = models.IntegerField() # just store this as inches
+    username = models.CharField(max_length=30, primary_key=True)
+    age = models.IntegerField(default=0)
+    weight = models.IntegerField(default=0)
+    height = models.IntegerField(default=0) # just store this as inches
 
     gender = models.CharField(
         max_length=1,
@@ -32,30 +28,10 @@ class User(models.Model):
         default=MALE
     )
 
-    country     = models.CharField(max_length=255) # why is this needed?
-    active      = models.BooleanField()
-    '''
-    password_id = models.ForeignKey(
-        'Pword',
-        default="",
-        # if a user is removed, remove their password as well?
-        # we can also have an account deactivated option.
-        on_delete=models.CASCADE
-    )
-    '''
-
-class Pword(models.Model):
-    '''
-
-    '''
-    # update this later, this needs to be a hash of the password (sha256) and a
-    # salt. Need to determine the salt function to use.
-    p_hash = models.CharField(max_length=256)
+    country = models.CharField(max_length=255) # why is this needed?
+    active = models.BooleanField(default=True)
 
 class Route(models.Model):
-    '''
-
-    '''
     WALKING = 'W'
     RUNNING = 'R'
     BIKING  = 'B'
@@ -82,22 +58,11 @@ class Route(models.Model):
     )
 
 class Run(models.Model):
-    '''
-
-    '''
-    '''
-    user_name = models.ForeignKey(
-       'User'
-    )
-    '''
     route_id = models.ForeignKey(
        'Route'
     )
     timestamp = models.DateField(auto_now_add=True)
-    run_time  = models.IntegerField() # measured in seconds
+    run_time = models.IntegerField() # measured in seconds
 
 class Report(models.Model):
-    '''
-
-    '''
     data = JSONField()

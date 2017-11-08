@@ -1,32 +1,43 @@
 #from django.contrib.auth.models import User, Group
 from pathwayserv.api.models import Route, User
+from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    username = serializers.CharField(
+            required=True,
+            validators=[UniqueValidator(queryset=User.objects.all())]
+            )
+
+    password = serializers.CharField(min_length=8)
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+                validated_data['username'],
+                )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
     class Meta:
         model = User
         fields = (
+            'username',
             'url',
-            'user_name',
             'age',
             'weight',
             'height',
             'gender',
             'country',
-            'active'
+            'active',
+            'password'
         )
-
-'''
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Group
-        fields = ('url', 'name')
-'''
 
 class RouteSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Route
         fields = (
+            'url',
             'id',
             'bounding_box',
             'user',
