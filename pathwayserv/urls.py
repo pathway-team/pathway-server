@@ -20,12 +20,14 @@ from pathwayserv.api import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+#router.register(r'groups', views.GroupViewSet)
+router.register(r'routes', views.RouteViewSet)
 
 # wire up the api using automatic URL routing
 # additionally include login URLs for browsable api
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
+    url(r'^$', views.api_root),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
