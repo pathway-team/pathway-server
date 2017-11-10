@@ -1,5 +1,5 @@
 #from django.contrib.auth.models import User, Group
-from pathwayserv.api.models import Route, User
+from pathwayserv.api.models import Route, User, Run
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
 
@@ -22,28 +22,39 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = (
-            'username',
-            'url',
-            'age',
-            'weight',
-            'height',
-            'gender',
-            'country',
-            'active',
-            'password'
-        )
+                'username',
+                'url',
+                'age',
+                'weight',
+                'height',
+                'gender',
+                'country',
+                'active',
+                'password'
+                )
 
 class RouteSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Route
         fields = (
-            'url',
-            'id',
-            'bounding_box',
-            'user',
-            'routeid',
-            'parentid',
-            'data',
-            'atype'
-        )
+                'url',
+                'id',
+                'bounding_box',
+                'user',
+                'routeid',
+                'parentid',
+                'data',
+                'atype'
+                )
         # data = serializers.ListField(child=serializers.FloatField())
+
+class RunSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Run
+        fields = (
+                'url',
+                'route_id',
+                'user',
+                'timestamp',
+                'run_time'
+                )

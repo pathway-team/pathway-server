@@ -17,11 +17,14 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from django.contrib import admin
 from pathwayserv.api import views
+from rest_framework.documentation import include_docs_urls
+from rest_framework.permissions import IsAuthenticated
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 #router.register(r'groups', views.GroupViewSet)
 router.register(r'routes', views.RouteViewSet)
+router.register(r'runs', views.RunViewSet)
 
 # wire up the api using automatic URL routing
 # additionally include login URLs for browsable api
@@ -29,5 +32,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
     url(r'^$', views.api_root),
+    url(r'^docs/', include_docs_urls(
+                    title='Pathway API',
+                    public=False,
+                    permission_classes=[IsAuthenticated]
+                    )),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

@@ -59,8 +59,11 @@ class Route(models.Model):
 
 class Run(models.Model):
     route_id = models.ForeignKey(
-       'Route'
-    )
+            'Route'
+            )
+    user = models.ForeignKey(
+            'User'
+            )
     timestamp = models.DateField(auto_now_add=True)
     run_time = models.IntegerField() # measured in seconds
 
