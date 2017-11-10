@@ -26,7 +26,7 @@ purposes. You can create one by following the below steps;
 1. Make sure the container is up and running, if not run `docker-compose up`
 2. If this is a fresh run then you will need to migrate the database.
     * Run `docker-compose exec web python manage.py makemigrations`
-    * Then run `docker-compse exec web python manage.py migrate`
+    * Then run `docker-compose exec web python manage.py migrate`
 3. Now you can create a superuser account on the db
     * Run `docker-compose exec web python manage.py createsuperuser`
     * Follow the prompts in the terminal
