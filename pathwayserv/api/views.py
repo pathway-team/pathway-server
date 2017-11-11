@@ -46,6 +46,7 @@ class RouteViewSet(viewsets.ModelViewSet):
 
     list:
     Return a JSON list of all the routes.
+    Optionally return all routes who's center point falls withing a geographic bounding box.
 
     create:
     Create a new route instance.
@@ -58,17 +59,6 @@ class RouteViewSet(viewsets.ModelViewSet):
 
     queryset = Route.objects.all()
 
-    '''
-    @list_route()
-    def near_by(self, request):
-        min_lat = self.request.query_params.get('min_lat',None)
-        min_lon = self.request.query_params.get('min_long',None)
-        max_lat = self.request.query_params.get('max_lat',None)
-        max_lon = self.request.query_params.get('max_long',None)
-        n_bbox = [min_lat,min_lon,max_lat,max_lon]
-
-    '''
-
     def get_queryset(self):
         queryset = Route.objects.all()
 
@@ -79,15 +69,17 @@ class RouteViewSet(viewsets.ModelViewSet):
         n_bbox = [min_lat,min_lon,max_lat,max_lon]
 
         if None not in n_bbox:
-            #queryset = Route.objects.filter(bounding_box__gte=center)
-            queryset = Route.objects.filter(center_long__gte=min_lon) \
-                                    .filter(center_long__lte=max_lon) \
-                                    .filter(center_lat__gte=min_lat)  \
-                                    .filter(center_lat__lte=max_lat)
-            n_bbox = map(float, n_bbox)
-            print("hey")
+            # convert the bounding box into floats
+            n_bbox = list(map(float, n_bbox))
+            # can't do a queryset on computed properties,
+            # have to use a list comprehension instead.
+            def overlap(r, n_bbox):
+                return r.center_long >= n_bbox[1] and \
+                       r.center_long <= n_bbox[3] and \
+                       r.center_lat >= n_bbox[0] and  \
+                       r.center_lat <= n_bbox[2]
+            queryset = [r for r in Route.objects.all() if overlap(r, n_bbox)]
         return queryset
-
 
 class RunViewSet(viewsets.ModelViewSet):
     """
