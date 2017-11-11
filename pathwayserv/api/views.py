@@ -6,9 +6,9 @@ from rest_framework import viewsets
 from pathwayserv.api.serializers import UserSerializer, RouteSerializer, RunSerializer
 from pathwayserv.api.models import Route, User, Run
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, list_route
 from rest_framework.reverse import reverse
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 
 # Create your views here.
 
@@ -39,6 +39,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 class RouteViewSet(viewsets.ModelViewSet):
+#class RouteViewSet(generics.ListAPIView):
     """
     retrieve:
     Return a JSON representation of the given route.
@@ -53,8 +54,36 @@ class RouteViewSet(viewsets.ModelViewSet):
             permissions.IsAuthenticatedOrReadOnly,
             IsOwnerOrReadOnly,
             )
-    queryset = Route.objects.all()
     serializer_class = RouteSerializer
+
+    queryset = Route.objects.all()
+
+    '''
+    @list_route()
+    def near_by(self, request):
+        min_lat = self.request.query_params.get('min_lat',None)
+        min_lon = self.request.query_params.get('min_long',None)
+        max_lat = self.request.query_params.get('max_lat',None)
+        max_lon = self.request.query_params.get('max_long',None)
+        n_bbox = [min_lat,min_lon,max_lat,max_lon]
+
+    '''
+
+    def get_queryset(self):
+        queryset = Route.objects.all()
+
+        min_lat = self.request.query_params.get('min_lat',None)
+        min_lon = self.request.query_params.get('min_long',None)
+        max_lat = self.request.query_params.get('max_lat',None)
+        max_lon = self.request.query_params.get('max_long',None)
+        n_bbox = [min_lat,min_lon,max_lat,max_lon]
+
+        if None not in n_bbox:
+            #queryset = Route.objects.filter(bounding_box__gte=center)
+            n_bbox = map(float, n_bbox)
+            print("hey")
+        return queryset
+
 
 class RunViewSet(viewsets.ModelViewSet):
     """
