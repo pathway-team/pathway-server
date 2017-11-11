@@ -80,6 +80,10 @@ class RouteViewSet(viewsets.ModelViewSet):
 
         if None not in n_bbox:
             #queryset = Route.objects.filter(bounding_box__gte=center)
+            queryset = Route.objects.filter(center_long__gte=min_lon)
+                                    .filter(center_long__lte=max_lon)
+                                    .filter(center_lat__gte=min_lat)
+                                    .filter(center_lat__lte=max_lat)
             n_bbox = map(float, n_bbox)
             print("hey")
         return queryset
