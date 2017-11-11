@@ -43,7 +43,21 @@ class Route(models.Model):
     }
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    bounding_box = JSONField()
+    min_lat  = models.FloatField()
+    min_long = models.FloatField()
+    max_lat  = models.FloatField()
+    max_long = models.FloatField()
+
+    @property
+    def center_lat(self):
+        return (self.min_lat + self.max_lat) / 2
+        #return self.max_lat - (self.min_lat/2)
+
+    @property
+    def center_long(self):
+        return (self.min_long + self.max_long) / 2
+        #return self.max_long - (self.min_long/2)
+
     user = models.ForeignKey(
         User,
         default=""

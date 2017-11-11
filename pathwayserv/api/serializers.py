@@ -34,12 +34,20 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
                 )
 
 class RouteSerializer(serializers.HyperlinkedModelSerializer):
+    center_lat = serializers.ReadOnlyField()
+    center_long = serializers.ReadOnlyField()
+
     class Meta:
         model = Route
         fields = (
                 'url',
                 'id',
-                'bounding_box',
+                'min_lat',
+                'min_long',
+                'max_lat',
+                'max_long',
+                'center_lat',
+                'center_long',
                 'user',
                 'routeid',
                 'parentid',
