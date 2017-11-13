@@ -27,7 +27,7 @@ SECRET_KEY = '8fmp^*+c_p(x7$1^@o_q!%@_1qrdu%u^qlb_7$465$xdfzf@5&'
 DEBUG = False
 
 ALLOWED_HOSTS = [
-        'web'
+        '138.197.103.225'
         ]
 
 # Application definition
