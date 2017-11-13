@@ -24,9 +24,10 @@ SECRET_KEY = '8fmp^*+c_p(x7$1^@o_q!%@_1qrdu%u^qlb_7$465$xdfzf@5&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
+        '127.0.0.1',
         'web'
         ]
 
@@ -131,5 +132,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
+STATIC_ROOT = './pathwayserv/static/'
 STATIC_URL = '/static/'
