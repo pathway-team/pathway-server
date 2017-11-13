@@ -13,14 +13,16 @@ services:
       - "8000:8000"
     expose:
       - "8000"
+    #ports:
+    #  - "8000:8000"
     depends_on:
       - db
-  #nginx:
-  #  image: nginx:latest
-  #  ports:
-  #    - "8000:8000"
-  #  volumes:
-  #    - .:/code
-  #    - ./config/nginx:/etc/nginx/conf.d
-  #  depends_on:
-  #    - web
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+      - ./config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - web
