@@ -25,7 +25,8 @@ class User(AbstractUser):
     gender = models.CharField(
         max_length=1,
         choices=SEX_CHOICES,
-        default=MALE
+        default=MALE,
+        help_text="valid values are 'M' - male, 'F' - female"
     )
 
     country = models.CharField(max_length=255) # why is this needed?
@@ -60,23 +61,28 @@ class Route(models.Model):
 
     user = models.ForeignKey(
         User,
-        default=""
+        help_text="The fully qualified URL of the user - http://<domain>/users/{username}/"
     )
     routeid = models.IntegerField()
     parentid = models.IntegerField()
-    data = JSONField()
+    data = JSONField(
+            help_text="GeoJSON route data"
+            )
     atype = models.CharField(
-        max_length=1,
-        choices=ATYPE_CHOICES,
-        default=WALKING
-    )
+            max_length=1,
+            choices=ATYPE_CHOICES,
+            default=WALKING,
+            help_text="Valid values for this are 'W' - walking, 'R' - running, 'B' - biking"
+            )
 
 class Run(models.Model):
     route_id = models.ForeignKey(
-            'Route'
+            'Route',
+            help_text="The fully qualified URL of the route - http://<domain>/routes/{routeid}/"
             )
     user = models.ForeignKey(
-            'User'
+            'User',
+            help_text="The fully qualified URL of the user - http://<domanin>/users/{username}/"
             )
     timestamp = models.DateField(auto_now_add=True)
     run_time = models.IntegerField() # measured in seconds
