@@ -46,6 +46,7 @@ class RouteViewSet(viewsets.ModelViewSet):
 
     list:
     Return a JSON list of all the routes.
+
     Optionally return all routes who's center point falls withing a geographic bounding box.
 
     create:
