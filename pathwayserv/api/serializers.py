@@ -8,12 +8,12 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             required=True,
             validators=[UniqueValidator(queryset=User.objects.all())]
             )
-
     password = serializers.CharField(min_length=8)
+    phonenumber = serializers.CharField()
 
     def create(self, validated_data):
         user = User.objects.create_user(
-                validated_data['username'],
+                **validated_data
                 )
         user.set_password(validated_data['password'])
         user.save()
@@ -24,7 +24,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
                 'username',
                 'url',
-                'phone_number',
+                'phonenumber',
                 'age',
                 'weight',
                 'height',
