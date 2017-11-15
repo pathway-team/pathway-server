@@ -9,8 +9,6 @@ services:
     command: gunicorn pathwayserv.wsgi --bind 0.0.0.0:8000
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
     expose:
       - "8000"
     #ports:
