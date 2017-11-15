@@ -18,6 +18,16 @@ class User(AbstractUser):
 
     # Table fields
     username = models.CharField(max_length=30, primary_key=True)
+    phone_regex = RegexValidator(
+            regex=r'^\+?1?\d{9,15}$',
+            message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+            )
+    phone_number = models.CharField(
+            validators=[phone_regex],
+            max_length=15,
+            blank=True,
+            help_text="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+            ) # validators should be a list
     age = models.IntegerField(default=0)
     weight = models.IntegerField(default=0)
     height = models.IntegerField(default=0) # just store this as inches

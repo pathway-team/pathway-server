@@ -24,6 +24,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
                 'username',
                 'url',
+                'phone_number',
                 'age',
                 'weight',
                 'height',
